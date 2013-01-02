@@ -1,0 +1,24 @@
+# Directories
+*.egg-info
+*.egg
+*.EGG
+*.EGG-INFO
+build
+develop-eggs
+downloads
+eggs
+fake-eggs
+parts
+.hg
+.bzr
+.svn
+
+# Files
+*.swp
+*.pyc
+*.mo
+*.pyo
+*.tmp*
+*.db
+.coverage
+.noseids
