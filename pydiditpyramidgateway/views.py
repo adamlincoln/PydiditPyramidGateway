@@ -5,24 +5,29 @@ import simplejson as json
 from pyramid.view import view_config
 
 
-def _stringify(thing):
-    if hasattr(thing, '__iter__'):
-        if hasattr(thing, 'keys'):
-            return dict([(key, _stringify(value)) for key, value in thing.iteritems()])
-        else:
-            return [_stringify(element) for element in thing]
-    else:
-        if thing.__class__.__name__ == 'datetime':
-            return thing.isoformat()
-        else:
-            return thing
+def _encode_datetime(v):
+    if hasattr(v, 'isoformat'):
+        return v.isoformat()
+    raise TypeError
 
 
-@view_config(route_name='home', renderer='json')
+def _decode_datetime(initial_result):
+    for k, v in initial_result.iteritems():
+        if isinstance(v, basestring):
+            try:
+                dt = datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%f')
+            except ValueError:
+                pass
+            else:
+                initial_result[k] = dt
+    return initial_result
+
+
+@view_config(route_name='home', renderer='string')
 def home(request):
     f = request.params['f']
-    args = json.loads(request.params['args'])
-    kwargs = json.loads(request.params['kwargs'])
-    to_return = _stringify(getattr(pydiditbackend, f)(*args, **kwargs))
+    args = json.loads(request.params['args'], object_hook=_decode_datetime)
+    kwargs = json.loads(request.params['kwargs'], object_hook=_decode_datetime)
+    to_return = json.dumps(getattr(pydiditbackend, f)(*args, **kwargs), default=_encode_datetime)
     pydiditbackend.commit()
     return to_return
