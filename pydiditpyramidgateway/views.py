@@ -5,6 +5,8 @@ from datetime import datetime
 
 from pyramid.view import view_config
 
+import logging
+log = logging.getLogger(__name__)
 
 def _encode_datetime(v):
     if hasattr(v, 'isoformat'):
