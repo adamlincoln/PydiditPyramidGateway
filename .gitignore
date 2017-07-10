@@ -1,0 +1,16 @@
+*.pyc
+*.swp
+*.db
+pydidit*.ini
+alembic*.ini
+.coverage
+
+.installed.cfg
+bin
+develop-eggs
+
+*.egg-info
+
+tmp
+build
+dist
