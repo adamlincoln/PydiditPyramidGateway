@@ -21,6 +21,7 @@ requires = [
     'pycrypto',
     'xkcdpass',
     'simplejson',
+    'alembic',
     ]
 
 tests_require = [
