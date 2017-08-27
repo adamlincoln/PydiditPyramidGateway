@@ -7,6 +7,7 @@ from pydiditpyramidgateway.policies import AlwaysPassAuthenticatedAuthorizationP
 import pydiditbackend
 
 from datetime import datetime
+import simplejson as json
 
 
 def main(global_config, **settings):
@@ -41,5 +42,5 @@ def main(global_config, **settings):
             config.include(module)
 
     config.scan()
-    pydiditbackend.initialize()
+    pydiditbackend.initialize(json.loads(settings['backend_settings']))
     return config.make_wsgi_app()
