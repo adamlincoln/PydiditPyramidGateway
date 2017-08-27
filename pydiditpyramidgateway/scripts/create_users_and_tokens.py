@@ -33,7 +33,7 @@ def main(argv=sys.argv):
     if len(argv) < 2:
         usage(argv)
     config_uri = argv[1]
-    username = argv[2]
+    username = unicode(argv[2])
     setup_logging(config_uri)
     settings = get_appsettings(config_uri)
 
